@@ -134,3 +134,45 @@
      const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
      app.use(limiter);
      ```
+
+## **6)Cloudinary/Multer File Handling Explanation**
+
+### **Objective**:
+The goal is to efficiently handle file uploads (like images) in your Express.js backend. Instead of storing large files directly on your server, we use **Cloudinary** for cloud storage, but the process involves a temporary local storage step using **Multer**.
+
+### **Steps Overview**:
+
+#### 1. **Local Temporary Storage**:
+   - Using **Multer** as a middleware, the uploaded files are first saved temporarily in a local directory (e.g., `/public/temp`). 
+   - This setup ensures we can perform additional checks or transformations (e.g., resizing, validation) if needed before sending files to the cloud.
+
+#### 2. **Uploading to Cloudinary**:
+   - Once a file is locally stored, it is then uploaded to **Cloudinary**. 
+   - This step involves:
+     - Reading the file from local storage.
+     - Uploading it to Cloudinary using their SDK.
+     - Retrieving a secure URL for the uploaded file.
+   - After a successful upload, the local file is deleted to free up server space and prevent clutter.
+
+So far, we've focused on setting up a backend project following **industry-standard practices**. This includes:
+
+- **Configuring environment files** and managing sensitive data securely.
+- **Establishing a scalable folder structure** for better project organization.
+- Setting up essential development tools like **Prettier**, **ESLint**, and **Nodemon**.
+- Implementing **secure database connections** with proper error handling.
+- Creating **centralized error handling** and standardized response utilities.
+- Integrating **Multer** and **Cloudinary** for efficient file handling, starting with local temporary storage before uploading to the cloud.
+
+This setup provides a strong foundation for scalable and maintainable backend development.
+
+## **7) Router and Controller Structure**
+
+### **What We're Doing:**
+- **userRoutes.js:** Defines HTTP endpoints using `express.Router()` and connects them to controller methods (e.g., `/register`, `/login`).
+- **userController.js:** Contains business logic for each endpoint (e.g., user registration, login, fetching profile).
+- **app.js:** Imports and mounts `userRoutes` under `/users`, so all user-related routes start with `/users`.
+
+### **Why We Do This:**
+- **Separation of Concerns:** Keeps routes and logic separate for better readability and maintainability.
+- **Scalability:** Easily add more features without cluttering code.
+- **Reusability:** Controller functions can be reused across different parts of the app.
