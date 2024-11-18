@@ -1,6 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 import jwt from "jsonwebtoken"
-var bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs'
 
 const userSchema = new Schema({
   username: {
@@ -24,7 +24,7 @@ const userSchema = new Schema({
     trim: true,
     index: true
   },
-  avtar : {
+  avatar : {
     type: String, //cloudinary url
     required: true,
   },
@@ -53,7 +53,7 @@ const userSchema = new Schema({
 userSchema.pre("save", async function (next) {
   if(!this.isModified("password")) return next();
 
-  this.password = bcrypt.hash(this.password, 10)
+  this.password = await bcrypt.hash(this.password, 10)
   next()
 })
 

@@ -176,3 +176,28 @@ This setup provides a strong foundation for scalable and maintainable backend de
 - **Separation of Concerns:** Keeps routes and logic separate for better readability and maintainability.
 - **Scalability:** Easily add more features without cluttering code.
 - **Reusability:** Controller functions can be reused across different parts of the app.
+
+### **8) User Controller (`userController.js`)**
+
+### **What We Do**:
+- **registerUser Function**: Manages user registration by handling validations, file uploads, and database interactions.
+- **Flow Breakdown**:
+  - **Extract User Data**: Retrieve necessary fields (`username`, `fullname`, `email`, `password`) from the request body.
+  - **Input Validation**: Ensure no field is empty, returning an error if validation fails.
+  - **User Existence Check**: Query the database for existing users by `username` or `email`. Return an error if a match is found.
+  - **File Handling with Multer**: 
+    - Check if files (`avatar` and optionally `coverImage`) are provided.
+    - Extract local file paths using `req.files`.
+  - **Cloudinary Upload**: 
+    - Upload `avatar` and `coverImage` from local paths to Cloudinary.
+    - Store Cloudinary URLs in the user object.
+  - **User Creation**: 
+    - Create a new user in the database with the validated data and uploaded image URLs.
+    - Return only non-sensitive fields, excluding `password` and `refreshToken`.
+  - **Standardized Response**: Use `ApiResponse` utility to send a consistent response with status and message.
+
+### **Why We Do This**:
+- **Validation**: Prevents invalid or incomplete data from being processed.
+- **Security**: Protects sensitive information (e.g., password) by excluding it from the response.
+- **Efficiency**: Uploads images to Cloudinary, minimizing server load and storage needs.
+- **Consistency**: Standardized error handling and response format enhance API reliability and maintainability.
